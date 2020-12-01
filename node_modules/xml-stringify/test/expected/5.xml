@@ -1,0 +1,3 @@
+<foo>
+	<bar foo="Foo" baz="Baz">Foo!</bar>
+</foo>

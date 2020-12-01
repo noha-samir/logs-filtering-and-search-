@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ESB</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="../../plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="../../plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+</head>
+
+<body class="hold-transition">
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+    <script src="../../plugins/select2/js/select2.full.min.js"></script>
+    <!-- Bootstrap4 Duallistbox -->
+    <script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+    <!-- InputMask -->
+    <script src="../../plugins/moment/moment.min.js"></script>
+    <script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap color picker -->
+    <script src="../../plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Bootstrap Switch -->
+    <script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../../dist/js/demo.js"></script>
+    <!-- DataTables -->
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="card-title" style="font-size:30px; color:rgb(255, 196, 0);"><strong>ESB</strong></h1>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.col (left) -->
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Query filters</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputMsgRefID">MsgRefId</label>
+                            <input type="text" class="form-control" id="exampleInputMsgRefID"
+                                placeholder="Enter msgRefId">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputRqUID">RqUID</label>
+                            <input type="text" class="form-control" id="exampleInputRqUID"
+                                placeholder="Enter msgRefId">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputConsumerId">ConsumerId</label>
+                            <input type="text" class="form-control" id="exampleInputConsumerId"
+                                placeholder="Enter msgRefId">
+                        </div>
+                        <div class="form-group">
+                            <label>Date and time range:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                </div>
+                                <input type="text" class="form-control float-right" id="reservationtime">
+                            </div>
+                        </div>
+                        <div>
+                            <button id='btn-search' name='search' type='button'
+                                class='btn btn-block btn-primary'>Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <p id = results-count style="font-size:30px; color:rgb(255, 196, 0);" ></p>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <!-- <div class="row">
+                            <div class="col-sm-6">
+                                <div class="dataTables_length" id="example1_length"><label>Show <select
+                                            name="example1_length" aria-controls="example1"
+                                            class="form-control input-sm">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label></div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search"
+                                            class="form-control input-sm" placeholder=""
+                                            aria-controls="example1"></label></div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="myTable" class="table table-bordered table-striped dataTable dtr-inline"
+                                    role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-sort="ascending"
+                                                aria-label="GLOBAL_TRANSACTION_ID: activate to sort column descending">
+                                                GLOBAL_TRANSACTION_ID</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="LOG_TIME: activate to sort column ascending">
+                                                LOG_TIME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="SERVICE_TYPE: activate to sort column ascending">
+                                                SERVICE_TYPE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="BROKER_NAME: activate to sort column ascending">
+                                                BROKER_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="EXEGROUP: activate to sort column ascending">
+                                                EXEGROUP</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="FLOW_NAME: activate to sort column ascending">
+                                                FLOW_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="FLOW_SERVICE: activate to sort column ascending">
+                                                FLOW_SERVICE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="NODE_TERMINAl: activate to sort column ascending">
+                                                NODE_TERMINAl</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="EVENT_NAME: activate to sort column ascending">
+                                                EVENT_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="SERVICE_GROUP: activate to sort column ascending">
+                                                SERVICE_GROUP</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="SERVICE_NAME: activate to sort column ascending">
+                                                SERVICE_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="EVENT_TIME: activate to sort column ascending">
+                                                EVENT_TIME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="EVENT_STATUS: activate to sort column ascending">
+                                                EVENT_STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="PAYLOAD_TYPE: activate to sort column ascending">
+                                                PAYLOAD_TYPE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="PAYLOAD_SIZE: activate to sort column ascending">
+                                                PAYLOAD_SIZE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="TRANSPORT_PROTOCOL: activate to sort column ascending">
+                                                TRANSPORT_PROTOCOL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="PAYLOAD: activate to sort column ascending">
+                                                PAYLOAD</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">GLOBAL_TRANSACTION_ID</th>
+                                            <th rowspan="1" colspan="1">LOG_TIME</th>
+                                            <th rowspan="1" colspan="1">SERVICE_TYPE</th>
+                                            <th rowspan="1" colspan="1">Engine BROKER_NAME</th>
+                                            <th rowspan="1" colspan="1">EXEGROUP</th>
+                                            <th rowspan="1" colspan="1">FLOW_NAME</th>
+                                            <th rowspan="1" colspan="1">FLOW_SERVICE</th>
+                                            <th rowspan="1" colspan="1">NODE_TERMINAl</th>
+                                            <th rowspan="1" colspan="1">EVENT_NAME</th>
+                                            <th rowspan="1" colspan="1">SERVICE_GROUP</th>
+                                            <th rowspan="1" colspan="1">SERVICE_NAME</th>
+                                            <th rowspan="1" colspan="1">EVENT_TIME</th>
+                                            <th rowspan="1" colspan="1">EVENT_STATUS</th>
+                                            <th rowspan="1" colspan="1">PAYLOAD_TYPE</th>
+                                            <th rowspan="1" colspan="1">PAYLOAD_SIZE</th>
+                                            <th rowspan="1" colspan="1">TRANSPORT_PROTOCOL</th>
+                                            <th rowspan="1" colspan="1">PAYLOAD</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-sm-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
+                                                aria-controls="example1" data-dt-idx="0" tabindex="0">Previous</a></li>
+                                        <li class="paginate_button active"><a href="#" aria-controls="example1"
+                                                data-dt-idx="1" tabindex="0">1</a></li>
+                                        <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                data-dt-idx="2" tabindex="0">2</a></li>
+                                        <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                data-dt-idx="3" tabindex="0">3</a></li>
+                                        <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                data-dt-idx="4" tabindex="0">4</a></li>
+                                        <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                data-dt-idx="5" tabindex="0">5</a></li>
+                                        <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                data-dt-idx="6" tabindex="0">6</a></li>
+                                        <li class="paginate_button next" id="example1_next"><a href="#"
+                                                aria-controls="example1" data-dt-idx="7" tabindex="0">Next</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <!--
+            our second selection MODAL
+        -->
+        <div id="event-modal" class="modal fade bs-example-modal-sm">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal" href="#">x</a>
+                    </div>
+                    <div class="modal-body">
+                        <div style="overflow: auto"> 
+                            <table class="table table-hover">
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- calender picker script-->
+    <script>
+        var startDateVal = moment().subtract('minute', 1);
+        var endDateVal = moment();
+        var msgRefId = null;
+        $(function () {
+            //Date range picker with time picker
+            $('#reservationtime').daterangepicker({
+                startDate: startDateVal,
+                endDate: endDateVal,
+                timePicker: true,
+                timePickerIncrement: 1,
+                showDropdowns: true,
+                timePickerSeconds: true,
+                locale: {
+                    format: 'MM/DD/YYYY hh:mm:ss A'
+                }
+            }, function (start, end, label) {
+                startDateVal = start;
+                endDateVal = end;
+            });
+        })
+    </script>
+    
+    <!-- get first data (search button) script -->
+    <script>
+        $('#btn-search').on('click', function () {
+            //get msg id
+            msgRefId = $("#exampleInputMsgRefID").val();
+            RqUID = $("#exampleInputRqUID").val();
+            ConsumerId = $("#exampleInputConsumerId").val();
+            loadFirstTable(startDateVal, endDateVal, msgRefId,RqUID,ConsumerId);
+        });
+    </script>
+
+    <!-- <script src="<%= htmlWebpackPlugin.options.apiUrl %>"></script> -->
+
+    <!-- get first data (functions) script -->
+    <script>
+        function loadFirstTable(start, end, msgRefId) {
+            
+            let url = `/api/v1/ESB/all/payloads/'${start.format('DD-MMM-YYYY hh.mm.ss.000000000 A')}'/'${end.format('DD-MMM-YYYY hh.mm.ss.000000000 A')}'?msgRefId=${msgRefId}&RqUID=${RqUID}&ConsumerId=${ConsumerId}`;
+            LoadTable(url);
+        }
+
+        function LoadTable(url) {
+            $("#btn-search").attr("disabled", true);
+            let myArray;
+            const userAction = async () => {
+                const response = await fetch(url);
+                const myJson = await response.json(); //extract JSON from the http response
+                myArray = myJson;
+                buildTable(myArray)
+            }
+            userAction();
+            function buildTable(data) {
+                var table = document.getElementById('myTable')
+                var tableHTML = ` <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-sort="ascending"
+                                                aria-label="GLOBAL_TRANSACTION_ID: activate to sort column descending">
+                                                GLOBAL_TRANSACTION_ID</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="LOG_TIME: activate to sort column ascending">
+                                                LOG_TIME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="SERVICE_TYPE: activate to sort column ascending">
+                                                SERVICE_TYPE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="BROKER_NAME: activate to sort column ascending">
+                                                BROKER_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="EXEGROUP: activate to sort column ascending">
+                                                EXEGROUP</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="FLOW_NAME: activate to sort column ascending">
+                                                FLOW_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="FLOW_SERVICE: activate to sort column ascending">
+                                                FLOW_SERVICE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="NODE_TERMINAl: activate to sort column ascending">
+                                                NODE_TERMINAl</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="EVENT_NAME: activate to sort column ascending">
+                                                EVENT_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="SERVICE_GROUP: activate to sort column ascending">
+                                                SERVICE_GROUP</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="SERVICE_NAME: activate to sort column ascending">
+                                                SERVICE_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="EVENT_TIME: activate to sort column ascending">
+                                                EVENT_TIME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="EVENT_STATUS: activate to sort column ascending">
+                                                EVENT_STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="PAYLOAD_TYPE: activate to sort column ascending">
+                                                PAYLOAD_TYPE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="PAYLOAD_SIZE: activate to sort column ascending">
+                                                PAYLOAD_SIZE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="TRANSPORT_PROTOCOL: activate to sort column ascending">
+                                                TRANSPORT_PROTOCOL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="PAYLOAD: activate to sort column ascending">
+                                                PAYLOAD</th>
+                                        </tr>
+                                    </thead>`
+
+                for (let index = 0; index < data.length; index++) {
+                    var element = data[index];
+                    element.PAYLOAD = escapXML(element.PAYLOAD);
+                    var row = `<tr role="row" class="odd">
+                        <td class="sorting_1" tabindex="0">
+                            <button type="button" class="open-transactions btn btn-info" data-toggle="modal" data-target=".bs-example-modal-sm" data-id=${element.GLOBAL_TRANSACTION_ID}>Open modal for ${element.GLOBAL_TRANSACTION_ID}</button>
+                        </td>
+                        <td>${element.LOG_TIME}</td>
+                        <td>${element.SERVICE_TYPE}</td>
+                        <td>${element.BROKER_NAME}</td>
+                        <td>${element.EXEGROUP}</td>
+                        <td>${element.FLOW_NAME}</td>
+                        <td>${element.FLOW_SERVICE}</td>
+                        <td>${element.NODE_TERMINAL}</td>
+                        <td>${element.EVENT_NAME}</td>
+                        <td>${element.SERVICE_GROUP}</td>
+                        <td>${element.SERVICE_NAME}</td>
+                        <td>${element.EVENT_TIME}</td>
+                        <td>${element.EVENT_STATUS}</td>
+                        <td>${element.PAYLOAD_TYPE}</td>
+                        <td>${element.PAYLOAD_SIZE}</td>
+                        <td>${element.TRANSPORT_PROTOCOL}</td>
+                        <td><span style="display:block; max-width:300px;max-height:100px; overflow-y: scroll;">${element.PAYLOAD}</span></td>
+                    </tr>`
+                    tableHTML += row
+                }
+                var footer = `<tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">GLOBAL_TRANSACTION_ID</th>
+                                            <th rowspan="1" colspan="1">LOG_TIME</th>
+                                            <th rowspan="1" colspan="1">SERVICE_TYPE</th>
+                                            <th rowspan="1" colspan="1">Engine BROKER_NAME</th>
+                                            <th rowspan="1" colspan="1">EXEGROUP</th>
+                                            <th rowspan="1" colspan="1">FLOW_NAME</th>
+                                            <th rowspan="1" colspan="1">FLOW_SERVICE</th>
+                                            <th rowspan="1" colspan="1">NODE_TERMINAl</th>
+                                            <th rowspan="1" colspan="1">EVENT_NAME</th>
+                                            <th rowspan="1" colspan="1">SERVICE_GROUP</th>
+                                            <th rowspan="1" colspan="1">SERVICE_NAME</th>
+                                            <th rowspan="1" colspan="1">EVENT_TIME</th>
+                                            <th rowspan="1" colspan="1">EVENT_STATUS</th>
+                                            <th rowspan="1" colspan="1">PAYLOAD_TYPE</th>
+                                            <th rowspan="1" colspan="1">PAYLOAD_SIZE</th>
+                                            <th rowspan="1" colspan="1">TRANSPORT_PROTOCOL</th>
+                                            <th rowspan="1" colspan="1">PAYLOAD</th>
+                                        </tr>
+                                    </tfoot>`;
+                table.innerHTML = tableHTML + footer;
+                //$('#results-count').html(table.tBodies[0].rows.length);
+                let tableLength = 0;
+                if(table.tBodies[0] != undefined){
+                    tableLength = table.tBodies[0].rows.length;
+                }
+                document.getElementById('results-count').innerHTML = "Selection Results : "+tableLength;
+                $("#btn-search").attr("disabled", false);
+            }
+        }
+        function escapXML(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+    </script>
+
+    <!-- get second data (functions) script -->
+    <script>
+        //open modal
+        var modalHtml = "";
+        $(document).on("click", ".open-transactions", function () {
+            modalHtml = $("#event-modal").html();
+            let myArray;
+            const userAction = async () => {
+                let globalTransactionID = $(this).data("id")
+                let url = `/api/v1/ESB/req/life/cycle/${globalTransactionID}`;
+                const response = await fetch(url);
+                const myJson = await response.json(); //extract JSON from the http response
+                myArray = myJson;
+                buildTable(myArray)
+            }
+            userAction();
+            function buildTable(data) {
+                var tableHTML = ` <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-sort="ascending"
+                                                aria-label="GLOBAL_TRANSACTION_ID: activate to sort column descending">
+                                                GLOBAL_TRANSACTION_ID</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="LOG_TIME: activate to sort column ascending">
+                                                LOG_TIME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="SERVICE_TYPE: activate to sort column ascending">
+                                                SERVICE_TYPE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="BROKER_NAME: activate to sort column ascending">
+                                                BROKER_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="EXEGROUP: activate to sort column ascending">
+                                                EXEGROUP</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="FLOW_NAME: activate to sort column ascending">
+                                                FLOW_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="FLOW_SERVICE: activate to sort column ascending">
+                                                FLOW_SERVICE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="NODE_TERMINAl: activate to sort column ascending">
+                                                NODE_TERMINAl</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="EVENT_NAME: activate to sort column ascending">
+                                                EVENT_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="SERVICE_GROUP: activate to sort column ascending">
+                                                SERVICE_GROUP</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="SERVICE_NAME: activate to sort column ascending">
+                                                SERVICE_NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="EVENT_TIME: activate to sort column ascending">
+                                                EVENT_TIME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="EVENT_STATUS: activate to sort column ascending">
+                                                EVENT_STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="PAYLOAD_TYPE: activate to sort column ascending">
+                                                PAYLOAD_TYPE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="PAYLOAD_SIZE: activate to sort column ascending">
+                                                PAYLOAD_SIZE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1"
+                                                aria-label="TRANSPORT_PROTOCOL: activate to sort column ascending">
+                                                TRANSPORT_PROTOCOL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                                colspan="1" aria-label="PAYLOAD: activate to sort column ascending">
+                                                PAYLOAD</th>
+                                        </tr>
+                                    </thead>`
+                for (let index = 0; index < data.length; index++) {
+                    var element = data[index];
+                    element.PAYLOAD = escapXML(element.PAYLOAD);
+                    var row = `<tr role="row" class="odd">
+                        <td>${element.GLOBAL_TRANSACTION_ID}</td>
+                        <td>${element.LOG_TIME}</td>
+                        <td>${element.SERVICE_TYPE}</td>
+                        <td>${element.BROKER_NAME}</td>
+                        <td>${element.EXEGROUP}</td>
+                        <td>${element.FLOW_NAME}</td>
+                        <td>${element.FLOW_SERVICE}</td>
+                        <td>${element.NODE_TERMINAL}</td>
+                        <td>${element.EVENT_NAME}</td>
+                        <td>${element.SERVICE_GROUP}</td>
+                        <td>${element.SERVICE_NAME}</td>
+                        <td>${element.EVENT_TIME}</td>
+                        <td>${element.EVENT_STATUS}</td>
+                        <td>${element.PAYLOAD_TYPE}</td>
+                        <td>${element.PAYLOAD_SIZE}</td>
+                        <td>${element.TRANSPORT_PROTOCOL}</td>
+                        <td><span style="display:block; max-width:300px;max-height:100px; overflow-y: scroll;">${element.PAYLOAD}</span></td>
+                    </tr>`
+                    tableHTML += row
+                }
+                var footer = `<tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">GLOBAL_TRANSACTION_ID</th>
+                                            <th rowspan="1" colspan="1">LOG_TIME</th>
+                                            <th rowspan="1" colspan="1">SERVICE_TYPE</th>
+                                            <th rowspan="1" colspan="1">Engine BROKER_NAME</th>
+                                            <th rowspan="1" colspan="1">EXEGROUP</th>
+                                            <th rowspan="1" colspan="1">FLOW_NAME</th>
+                                            <th rowspan="1" colspan="1">FLOW_SERVICE</th>
+                                            <th rowspan="1" colspan="1">NODE_TERMINAl</th>
+                                            <th rowspan="1" colspan="1">EVENT_NAME</th>
+                                            <th rowspan="1" colspan="1">SERVICE_GROUP</th>
+                                            <th rowspan="1" colspan="1">SERVICE_NAME</th>
+                                            <th rowspan="1" colspan="1">EVENT_TIME</th>
+                                            <th rowspan="1" colspan="1">EVENT_STATUS</th>
+                                            <th rowspan="1" colspan="1">PAYLOAD_TYPE</th>
+                                            <th rowspan="1" colspan="1">PAYLOAD_SIZE</th>
+                                            <th rowspan="1" colspan="1">TRANSPORT_PROTOCOL</th>
+                                            <th rowspan="1" colspan="1">PAYLOAD</th>
+                                        </tr>
+                                    </tfoot>`;
+                tableHTML += footer;
+                $('.bs-example-modal-sm table tbody').append(tableHTML);
+            }
+        });
+        //remove data from the modal
+        $("#event-modal").on("hidden.bs.modal", function () {
+            $("#event-modal").html(modalHtml);
+        });
+    </script>
+
+    <!-- page script -->
+    <script>
+        $(function () {
+            $('#myTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+</body>
+
+</html>
