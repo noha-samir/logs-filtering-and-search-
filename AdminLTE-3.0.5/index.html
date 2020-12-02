@@ -71,7 +71,8 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="card-title" style="font-size:30px; color:rgb(255, 196, 0);"><strong>ESB</strong></h1>
+                            <h1 class="card-title" style="font-size:30px; color:rgb(255, 196, 0);"><strong>ESB</strong>
+                            </h1>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
@@ -90,8 +91,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputRqUID">RqUID</label>
-                            <input type="text" class="form-control" id="exampleInputRqUID"
-                                placeholder="Enter msgRefId">
+                            <input type="text" class="form-control" id="exampleInputRqUID" placeholder="Enter msgRefId">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputConsumerId">ConsumerId</label>
@@ -116,7 +116,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <p id = results-count style="font-size:30px; color:rgb(255, 196, 0);" ></p>
+                    <p id=results-count style="font-size:30px; color:rgb(255, 196, 0);"></p>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -260,6 +260,26 @@
                 <!-- /.card-body -->
             </div>
         </div>
+
+        <div id="event-modal2" class="modal fade bs-example2-modal-sm">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal" href="#">x</a>
+                    </div>
+                    <div class="modal-body">
+                        <div style="overflow: auto">
+                            <!-- <span style="display:block; max-width:10000px;max-height:50000px; overflow-y: scroll;"></span> -->
+                            <pre lang="xml"></pre>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--
             our second selection MODAL
         -->
@@ -270,7 +290,7 @@
                         <a class="close" data-dismiss="modal" href="#">x</a>
                     </div>
                     <div class="modal-body">
-                        <div style="overflow: auto"> 
+                        <div style="overflow: auto">
                             <table class="table table-hover">
                                 <tbody>
 
@@ -310,7 +330,7 @@
             });
         })
     </script>
-    
+
     <!-- get first data (search button) script -->
     <script>
         $('#btn-search').on('click', function () {
@@ -318,7 +338,7 @@
             msgRefId = $("#exampleInputMsgRefID").val();
             RqUID = $("#exampleInputRqUID").val();
             ConsumerId = $("#exampleInputConsumerId").val();
-            loadFirstTable(startDateVal, endDateVal, msgRefId,RqUID,ConsumerId);
+            loadFirstTable(startDateVal, endDateVal, msgRefId, RqUID, ConsumerId);
         });
     </script>
 
@@ -327,7 +347,7 @@
     <!-- get first data (functions) script -->
     <script>
         function loadFirstTable(start, end, msgRefId) {
-            
+
             let url = `/api/v1/ESB/all/payloads/'${start.format('DD-MMM-YYYY hh.mm.ss.000000000 A')}'/'${end.format('DD-MMM-YYYY hh.mm.ss.000000000 A')}'?msgRefId=${msgRefId}&RqUID=${RqUID}&ConsumerId=${ConsumerId}`;
             LoadTable(url);
         }
@@ -433,7 +453,8 @@
                         <td>${element.PAYLOAD_SIZE}</td>
                         <td>${element.TRANSPORT_PROTOCOL}</td>
                         <td><span style="display:block; max-width:300px;max-height:100px; overflow-y: scroll;">${element.PAYLOAD}</span></td>
-                    </tr>`
+                        <td><button type="button" class="open-payload btn btn-info" data-toggle="modal" data-target=".bs-example2-modal-sm" data-id='${element.PAYLOAD}'>view payload</button></td>
+                        </tr>`
                     tableHTML += row
                 }
                 var footer = `<tfoot>
@@ -458,18 +479,32 @@
                                         </tr>
                                     </tfoot>`;
                 table.innerHTML = tableHTML + footer;
-                //$('#results-count').html(table.tBodies[0].rows.length);
                 let tableLength = 0;
-                if(table.tBodies[0] != undefined){
+                if (table.tBodies[0] != undefined) {
                     tableLength = table.tBodies[0].rows.length;
                 }
-                document.getElementById('results-count').innerHTML = "Selection Results : "+tableLength;
+                document.getElementById('results-count').innerHTML = "Selection Results : " + tableLength;
                 $("#btn-search").attr("disabled", false);
             }
         }
         function escapXML(str) {
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
+    </script>
+
+    <script>
+        //open modal
+        var modalHtml = "";
+        $(document).on("click", ".open-payload", function () {
+            modalHtml = $("#event-modal2").html();
+            var payload = $(this).data("id");
+            var payload = escapXML(payload);
+            $('.bs-example2-modal-sm pre').append(payload);
+        });
+        //remove data from the modal
+        $("#event-modal2").on("hidden.bs.modal", function () {
+            $("#event-modal2").html(modalHtml);
+        });
     </script>
 
     <!-- get second data (functions) script -->
