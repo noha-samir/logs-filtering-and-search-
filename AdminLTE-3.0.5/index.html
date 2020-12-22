@@ -63,7 +63,7 @@
     <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
-    <div class="wrapper">
+    <div class="wrapper" id = "cover">
         <!-- Content Wrapper. Contains page content -->
         <div class="">
             <!-- Content Header (Page header) -->
@@ -91,8 +91,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputRqUID">RqUID</label>
-                            <input type="text" class="form-control" id="exampleInputRqUID" 
-                                placeholder="Enter RqUID">
+                            <input type="text" class="form-control" id="exampleInputRqUID" placeholder="Enter RqUID">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputConsumerId">ConsumerId</label>
@@ -260,6 +259,8 @@
             </div>
         </div>
 
+
+
         <div id="event-modal2" class="modal fade bs-example2-modal-sm">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -268,7 +269,6 @@
                     </div>
                     <div class="modal-body">
                         <div style="overflow: auto">
-                            <!-- <span style="display:block; max-width:10000px;max-height:50000px; overflow-y: scroll;"></span> -->
                             <pre lang="xml"></pre>
                         </div>
                     </div>
@@ -302,6 +302,26 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="modal fade show xmlmodalex" id="modal-info" aria-modal="true">
+            <div class="modal-dialog">
+                <div class="modal-content modal-lg">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="overflow: auto">
+                            <pre lang="xml"></pre>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
         </div>
     </div>
     <!-- ./wrapper -->
@@ -337,7 +357,7 @@
             msgRefId = $("#exampleInputMsgRefID").val();
             RqUID = $("#exampleInputRqUID").val();
             ConsumerId = $("#exampleInputConsumerId").val();
-            loadFirstTable(startDateVal, endDateVal, msgRefId, RqUID, ConsumerId);
+            loadFirstTable(startDateVal, endDateVal, msgRefId, RqUID, ConsumerId); 
         });
     </script>
 
@@ -500,10 +520,23 @@
             var payload = escapXML(payload);
             $('.bs-example2-modal-sm pre').append(payload);
         });
+
+        var modalHtml2 = "";
+        $(document).on("click", ".open-payload2", function () {
+            modalHtml2 = $("#modal-info").html();
+            var payload = $(this).data("id");
+            var payload = escapXML(payload);
+            $('.xmlmodalex pre').append(payload);
+        });
         //remove data from the modal
         $("#event-modal2").on("hidden.bs.modal", function () {
             $("#event-modal2").html(modalHtml);
         });
+        //remove data from the modal
+        $("#modal-info").on("hidden.bs.modal", function () {
+            $("#modal-info").html(modalHtml2);
+        });
+
     </script>
 
     <!-- get second data (functions) script -->
@@ -609,7 +642,8 @@
                         <td>${element.PAYLOAD_SIZE}</td>
                         <td>${element.TRANSPORT_PROTOCOL}</td>
                         <td><span style="display:block; max-width:300px;max-height:100px; overflow-y: scroll;">${element.PAYLOAD}</span></td>
-                    </tr>`
+                        <td><button type="button" class="open-payload2 btn btn-info" data-toggle="modal" data-target=".xmlmodalex" data-id='${element.PAYLOAD}'>view payload</button></td>
+                        </tr>`
                     tableHTML += row
                 }
                 var footer = `<tfoot>
